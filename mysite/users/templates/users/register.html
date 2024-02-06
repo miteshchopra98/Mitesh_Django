@@ -1,0 +1,64 @@
+{% extends "food/base.html" %}
+
+{% block body  %}
+
+<h1>This is the Sign-up page</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+
+    <label for="">
+        Username: {{ form.username }}
+    </label><br>
+
+    <label for="">
+       Email id: {{ form.email }}
+
+    </label><br>
+
+    <label for="">
+        first Name: {{ form.first_name }}
+
+    </label><br>
+
+    <label for="">
+        Last Name: {{ form.last_name }}
+
+    </label><br>
+
+    <label for="">
+        Password: {{ form.password1 }}
+
+    </label><br>
+
+    <label for="">
+        Password Confirmation: {{ form.password2 }}
+
+    </label><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    <button type="submit">
+        Sign Up
+    </button>
+
+
+</form>
+
+{% endblock  %}
+

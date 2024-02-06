@@ -1,0 +1,29 @@
+{% extends "food/base.html" %}
+
+{% block body %}
+
+
+
+<h1>This is Profile Edit Page</h1>
+
+
+<form enctype = 'multipart/form-data' method="POST">
+    {% csrf_token %}
+
+
+    User Id : {{ userid }}
+    <br>
+    {{ form }}
+
+    <br>
+    <button class='btn btn-warning' type='submit'>Confirm</button>
+    <a class= 'btn btn-dark' href="{% url 'profile' %}">Back</a>
+    <br>
+
+
+
+</form>
+
+
+
+{% endblock  %}
