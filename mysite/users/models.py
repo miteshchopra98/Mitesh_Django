@@ -8,6 +8,7 @@ class Profile(models.Model):
     image = models.ImageField(default='profilepic.jpg', upload_to='profile_pictures')
     location = models.CharField(max_length=100)
     user_type = models.CharField(max_length=50, default='usertype')
+    
 
     def __str__(self):
         return str(self.user)

@@ -23,7 +23,8 @@ def Register(request):
             print(username)
             print(password1)
             print(password2)
-            return redirect('login')
+            id = form.instance.id
+            return redirect('users:profformcreate', userid = id)
 
         
         
@@ -67,6 +68,8 @@ def Register(request):
 
     return render(request, 'users/register.html', context)
 
+
+
 def Login_view(request):
 
     if request.method == 'POST':
@@ -107,6 +110,8 @@ def Login_view(request):
         }
     return render(request, 'users/login.html', context)
 
+
+
 def logout_view(request):
     
 
@@ -120,6 +125,8 @@ def logout_view(request):
 
     return render(request, 'users/logout.html')
 
+
+
 def ProfileView(request):
 
     if not request.user.is_authenticated:
@@ -132,10 +139,12 @@ def ProfileView(request):
     return render(request,'users/profile.html', context)
 
 
+
 def ProfileFormEdit(request, userid):
 
+
     prof = Profile.objects.get(user=userid)
-    form = ProfileEditingForm(request.POST or None, request.FILES or None ,instance=prof)
+    form = ProfileForm(request.POST or None, request.FILES or None ,instance=prof)
     
     if request.method == 'POST':
         form.save()
@@ -147,6 +156,24 @@ def ProfileFormEdit(request, userid):
         'form': form
         }
 
-    
-    
-    return render(request, 'users/profformedit.html', context)
+    return render(request, 'users/profform.html', context)
+
+def ProfFormCreate(request, userid):
+    prof = Profile.objects.get(user=userid)
+    form = ProfileForm(request.POST or None, request.FILES or None, instance=prof)
+
+    if request.method == 'POST':
+        print('userid: {}'.format(userid))
+
+        
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+                
+
+    context ={
+
+        'userid':userid,
+        'form':form
+        }
+    return render(request, 'users/profform.html', context)
