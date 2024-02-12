@@ -7,8 +7,16 @@ from django.contrib.auth.decorators import login_required
 from users.models import Profile
 
 # Create your views here.
+#----------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+# Function based Register View
+#----------------------------------------------------------------------------------------------
 def Register(request):
 
     form = RegisterForm(request.POST or None)
@@ -37,19 +45,19 @@ def Register(request):
             password2 = form.data.get('password2')
             
             if user_exists:
-                messages.success(
+                    messages.success(
                     request,
                     'Username already exists'
                    )
 
             elif password1 != password2:
-               messages.success(
+                    messages.success(
                     request,
                     'Password does not match'
                    )
 
             elif len(password1)<8:
-               messages.success(
+                    messages.success(
                     request,
                     'password length cannot be less than 8'
                    )
@@ -68,7 +76,16 @@ def Register(request):
 
     return render(request, 'users/register.html', context)
 
+#----------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+# Function based Login_view View
+#----------------------------------------------------------------------------------------------
 
 def Login_view(request):
 
@@ -110,7 +127,16 @@ def Login_view(request):
         }
     return render(request, 'users/login.html', context)
 
+#----------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+# Function based logout_view View
+#----------------------------------------------------------------------------------------------
 
 def logout_view(request):
     
@@ -125,7 +151,16 @@ def logout_view(request):
 
     return render(request, 'users/logout.html')
 
+#----------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+# Function based ProfileView View
+#----------------------------------------------------------------------------------------------
 
 def ProfileView(request):
 
@@ -138,7 +173,16 @@ def ProfileView(request):
 
     return render(request,'users/profile.html', context)
 
+#----------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+# Function based ProfileFormEdit View
+#----------------------------------------------------------------------------------------------
 
 def ProfileFormEdit(request, userid):
 
@@ -157,7 +201,16 @@ def ProfileFormEdit(request, userid):
         }
 
     return render(request, 'users/profform.html', context)
+#----------------------------------------------------------------------------------------------
+``
 
+
+
+
+
+
+# Function based ProfFormCreate View
+#----------------------------------------------------------------------------------------------
 def ProfFormCreate(request, userid):
     prof = Profile.objects.get(user=userid)
     form = ProfileForm(request.POST or None, request.FILES or None, instance=prof)

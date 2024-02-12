@@ -1,7 +1,7 @@
-from dataclasses import field
+from dataclasses import fields
 from django import forms
 from food.models import *
-from django.contrib.auth.forms import *
+from django.contrib.auth.forms import UserCreationForm
 from users.models import Profile
 
 class RegisterForm(UserCreationForm):
@@ -10,7 +10,7 @@ class RegisterForm(UserCreationForm):
     last_name = forms.CharField()
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'email', 'first_name','last_name']
+        fields = ['username', 'password1', 'password2' , 'email', 'first_name','last_name']
 
 class ProfileForm(forms.ModelForm):
     class Meta:
