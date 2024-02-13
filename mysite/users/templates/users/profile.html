@@ -2,20 +2,47 @@
 
 {% block body %}
 
-<h1>This is Profile Page</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card">
+                <div class="card-header text-white bg-info">
+                    <div class="card-title">
+                        Login
+                    </div>
+                </div>
+                <div class="card-body">
 
-<h2> User ID : {{ user.id }}</h2>
-<h2>Username: {{ user.username }}</h2>
-<h2>First Name: {{ user.first_name }} </h2>
-<h2>Last Name: {{ user.last_name }} </h2>
-<h2>Email: {{ user.email }}</h2>
-<h2>Location: {{ user.profile.location }}</h2>
-<img src="{{ user.profile.image.url }}">
+                    <div class='row'>
+                        <div>
+                            <img style = 'border-radius:50px' width='100px' height='100px' src="{{ user.profile.image.url }}"><br>
+                            <span style='font-size:1.5rem; margin-left:23px;'> {{ user.username }} </span>
+                        </div>
 
-<a href="{% url 'users:profformedit' user.id %}" 
-    class = 'btn btn-dark'>
-    Edit
-</a>
+                        <div class='offset-md-2'>
+                            <span style='font-size:1.5rem'> {{ user.first_name | title }} </span>
+                            <span style='font-size:1.5rem'> {{ user.last_name | title }} </span>
+                            <h3 style='font-size:1rem'> {{ user.email }} </h3>
+                            <h3 style='font-size:1rem'> {{ user.profile.location }} </h3>
+                            <a href="{% url 'users:profformedit' user.id %}" 
+                                class = 'btn btn-dark'>
+                                Edit
+                            </a>
+                            <a href="{% url "food:Index" %}" class = 'btn btn-success btn-red'>Back</a>
+
+                        </div>
+
+                    </div>
+                    
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 

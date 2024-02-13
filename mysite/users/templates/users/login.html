@@ -5,29 +5,39 @@
 
 
 
-<form method="POST">
-    {% csrf_token %}
 
-    <h1>This is Login page</h1>
-
-    <label> Username: </label> 
-    <input type="text" id='username' name='username' placeholder = 'username'>
-
-    <br>
-    <br>
-
-    <label> Password: </label> 
-    <input type="password" id='pass' name='password' placeholder = 'password'>
-
-    <br>
-    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="card">
+                    <div class="card-header text-white bg-info">
+                        <div class="card-title">
+                            Login
+                        </div>
+                    </div>
+                    <div class="card-body">
 
 
-    <button type = 'submit'>Login</button>
+                        <form method="POST">
+                            {% csrf_token %}
+    
+                            <label class="offset-md-1" for="user">Username:</label><br>
+                            <input class="offset-md-1" type="text" id="user" name="username"><br>
+    
+                            <label class="offset-md-1" for="pass">Password:</label><br>
+                            <input class="offset-md-1" type="password" id="pass" name="password">
+    
+                            <button class="btn btn-success btn-sm" type="submit">Login</button>
+                        </form>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-
-</form>
 
 
 
