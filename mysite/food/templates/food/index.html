@@ -25,9 +25,15 @@
         </div>
         
         <div class='col-mb-3'>
+
+            {% if user.is_authenticated %}
+            
             <a href="{% url 'food:detail' item.id %}", class='btn btn-success'>
                 Details
             </a>
+
+            {% endif %}
+            
         </div>
         
     </div>

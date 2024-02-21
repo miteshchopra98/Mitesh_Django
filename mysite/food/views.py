@@ -21,7 +21,21 @@ from django.views.generic.edit import CreateView
 # Function based Index view
 #----------------------------------------------------------------------------------------------
 def Index(request):
-    itemlist = Item.objects.all()
+
+
+    if request.user.is_superuser:
+        itemlist = Item.objects.all()
+        
+    elif request.user.is_authenticated and request.user.profile.user_type== 'rest':
+        itemlist = Item.objects.filter(rest_owner=request.user.id)
+        
+    elif request.user.is_authenticated and request.user.profile.user_type== 'cust':
+        itemlist = Item.objects.all()
+        
+    else:
+        itemlist = Item.objects.all()
+        
+
     context = {
         'itemlist':itemlist
         }

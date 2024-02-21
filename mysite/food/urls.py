@@ -6,10 +6,10 @@ urlpatterns = [
     
     #----------------------------------------------------------------------------------------------
     # Function based Index view
-    #path('home/', views.Index, name ='Index'),
+    path('home/', views.Index, name ='Index'),
     #----------------------------------------------------------------------------------------------
     # Class based Index view
-    path("home/", views.IndexClassView.as_view(), name="Index"),
+    # path("home/", views.IndexClassView.as_view(), name="Index"),
 
     
 

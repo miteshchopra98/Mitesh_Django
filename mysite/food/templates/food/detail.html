@@ -36,21 +36,70 @@
         </h3>
     </div>
 
+
+    {% comment %} Admin open {% endcomment %}
+    {% if user.is_authenticated and user.profile.user_type == 'admin' %}
+        <div class="col-md-3 offset-md-1">
+            <a
+                href="{% url 'food:updateitem' item.id %}"
+                style="width:80px"
+                class="btn btn-warning"
+            >
+                Edit
+            </a>
+
+            <a
+                href="{% url 'food:deleteitem' item.id %}"
+                style="width:80px"
+                class="btn btn-danger"
+            >
+                Delete
+            </a>
+
+            <a
+                href="{% url 'food:Index' %}"
+                style="width:80px"
+                class="btn btn-success"
+            >
+                Back
+            </a>
+        </div>
+    
+    {% endif %}
+    {% comment %} Admin close {% endcomment %}
+
+    {% comment %} rest open {% endcomment %}
+    {% if user.is_authenticated and user.profile.user_type == 'rest' %}
+        <div class="col-md-3 offset-md-1">
+            <a
+                href="{% url 'food:updateitem' item.id %}"
+                style="width:80px"
+                class="btn btn-warning"
+            >
+                Edit
+            </a>
+
+            <a
+                href="{% url 'food:Index' %}"
+                style="width:80px"
+                class="btn btn-success"
+            >
+                Back
+            </a>
+        </div>
+    
+    {% endif %}
+    {% comment %} rest close {% endcomment %}
+
+         {% comment %} rest open {% endcomment %}
+    {% if user.is_authenticated and user.profile.user_type == 'cust' %}
     <div class="col-md-3 offset-md-1">
         <a
-            href="{% url 'food:updateitem' item.id %}"
+            href="#"
             style="width:80px"
             class="btn btn-warning"
         >
-            Edit
-        </a>
-
-        <a
-            href="{% url 'food:deleteitem' item.id %}"
-            style="width:80px"
-            class="btn btn-danger"
-        >
-            Delete
+            Cart
         </a>
 
         <a
@@ -61,6 +110,13 @@
             Back
         </a>
     </div>
+
+{% endif %}
+{% comment %} rest close {% endcomment %}
+
+
+
+
 </div>
 {% endblock %}
 
