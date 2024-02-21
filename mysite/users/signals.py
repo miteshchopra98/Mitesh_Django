@@ -12,3 +12,4 @@ def build_profile(sender, instance, created, **kawrgs):
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, created, **kawrgs):
     instance.profile.save()
+

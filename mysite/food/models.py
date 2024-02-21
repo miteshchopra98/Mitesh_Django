@@ -20,4 +20,21 @@ class Item(models.Model):
                 self.item_name
         )
 
+class History(models.Model):
+
+    username = models.CharField(max_length=100)
+    prod_code = models.IntegerField(default=100)
+    item_name  = models.CharField(max_length=200)
+    operation = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(
+            (
+                self.prod_code,
+                self.username,
+                self.item_name,
+                self.operation
+            )
+        )
+
         

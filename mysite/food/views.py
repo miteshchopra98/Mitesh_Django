@@ -62,8 +62,10 @@ class IndexClassView(ListView):
 #----------------------------------------------------------------------------------------------
 def Detail(request, itemid):
     item = Item.objects.get(id=itemid)
+    history = History.objects.filter(username  = request.user.username)
     context={
-        'item': item
+        'item': item,
+        'history':history
         }
     return render(request, 'food/detail.html', context)
 #----------------------------------------------------------------------------------------------
@@ -108,6 +110,15 @@ class IndexCreateItemView(CreateView):
     success_url = reverse_lazy('food:Index')
 
     def form_valid(self, form):
+
+        Obj_History = History(
+            username = self.request.user.username,
+            prod_code = form.instance.prod_code,
+            item_name = self.request.POST.get('item_name'),      # form.instance.item_name
+            operation = 'Created'
+        )
+
+        Obj_History.save()
         return super().form_valid(form)
 
 
@@ -128,6 +139,16 @@ def UpdateItem(request, itemid):
 
     if request.method == 'POST':
         form.save()
+
+        Obj_History = History(
+            username = request.user.username,
+            prod_code = form.instance.prod_code,
+            item_name = request.POST.get('item_name'),      # form.instance.item_name
+            operation = 'Updated'
+        )
+
+        Obj_History.save()
+        
         return redirect('food:detail', itemid=itemid)
     
     context={
@@ -155,10 +176,33 @@ def DeleteItem(request, itemid):
         'item':item
         }
     if request.method =='POST':
+
+        Obj_History = History(
+            username = request.user.username,
+            prod_code = item.prod_code,
+            item_name = item.item_name,
+            operation = 'Deleted'
+        )
+
+        Obj_History.save()
+        
         item.delete()
         return redirect('food:Index')
     return render(request, 'food/item-delete.html', context)
 #----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

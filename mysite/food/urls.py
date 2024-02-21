@@ -17,10 +17,10 @@ urlpatterns = [
 
     #----------------------------------------------------------------------------------------------
     # Function based Detail view
-    #path('detail/<int:itemid>/', views.Detail, name ='detail'),
+    path('detail/<int:itemid>/', views.Detail, name ='detail'),
     #----------------------------------------------------------------------------------------------
     # Class based Detail view
-    path('detail/<int:pk>/', views.DetailClassView.as_view(), name ='detail'),
+    #path('detail/<int:pk>/', views.DetailClassView.as_view(), name ='detail'),
 
     
 

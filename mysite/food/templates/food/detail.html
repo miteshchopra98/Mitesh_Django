@@ -115,6 +115,59 @@
 {% comment %} rest close {% endcomment %}
 
 
+<div>
+    {% if user.is_authenticated %}
+
+    {% comment %} product updates open {% endcomment %}
+        {% if user.profile.user_type == 'admin' pr user.profile.user_type == 'rest' or user.profile.user_type  %}
+        
+        {% else %}
+        {% endif %}
+    {% comment %} product updates close {% endcomment %}
+    
+
+    {% comment %} product cart open {% endcomment %}
+    {% comment %} product cart close {% endcomment %}
+
+    {% comment %} product feedbacks/ratings open {% endcomment %}
+    {% comment %} product updates close {% endcomment %}
+    {% else %}
+    {% endif %}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+{% for h in history  %}
+
+<div>
+    
+        {{ h.username }} <br>
+        {{ h.prod_code }} <br>
+        {{ h.item_name }} <br>
+        {{ h.operation }} <br>
+    
+</div>
+<br>
+{% endfor %} 
 
 
 </div>
