@@ -62,7 +62,7 @@ class IndexClassView(ListView):
 #----------------------------------------------------------------------------------------------
 def Detail(request, itemid):
     item = Item.objects.get(id=itemid)
-    history = History.objects.filter(username  = request.user.username)
+    history = History.objects.filter(prod_code = item.prod_code)
     context={
         'item': item,
         'history':history

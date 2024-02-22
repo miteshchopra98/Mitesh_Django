@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import *
 from django.contrib.auth.decorators import login_required
-from users.models import Profile
+from users.models import Profile, CustCart
 
 # Create your views here.
 #----------------------------------------------------------------------------------------------
@@ -231,3 +231,24 @@ def ProfFormCreate(request, userid):
         }
     return render(request, 'users/profform.html', context)
 
+
+def CustCartView(request, itemid, pdcd, user):
+
+    context = {
+        'pdcd':pdcd,
+        'user':user
+    }
+
+    if request.method == 'POST':
+
+        Obj_CusOrds = CustCart(
+            prod_code=pdcd,
+            username=user,
+            quantity=request.POST.get('qty')
+        )
+
+        Obj_CusOrds.save()
+
+        return redirect('food:detail', itemid=itemid)
+
+    return render(request, 'users/cart.html', context)

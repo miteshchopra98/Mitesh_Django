@@ -34,7 +34,7 @@
         <h3>
             ${{ item.item_price }}
         </h3>
-    </div>
+</div>
 
 
     {% comment %} Admin open {% endcomment %}
@@ -95,7 +95,7 @@
     {% if user.is_authenticated and user.profile.user_type == 'cust' %}
     <div class="col-md-3 offset-md-1">
         <a
-            href="#"
+            href="{% url 'users:cart' item.id item.prod_code user.username %}"
             style="width:80px"
             class="btn btn-warning"
         >
@@ -115,13 +115,65 @@
 {% comment %} rest close {% endcomment %}
 
 
-<div>
-    {% if user.is_authenticated %}
+</div>
+{% if user.is_authenticated %}
 
     {% comment %} product updates open {% endcomment %}
-        {% if user.profile.user_type == 'admin' pr user.profile.user_type == 'rest' or user.profile.user_type  %}
+        {% if user.profile.user_type == 'Admin' or user.profile.user_type == 'rest' or user.profile.user_type %}
+            {% for obj in history %}
+
+                <div
+                    class="row mb-1">
+            
+                    <div
+                        class="col-md-8
+                            offset-md-2
+                            bg-danger
+                            text-white">
+            
+                            <div
+                                class="row">
+            
+                                <div 
+                                    class="col-md-3 
+                                        text-left">
+            
+                                    {{ obj.username }}
+                                </div>
+            
+                                <div 
+                                    class="col-md-3 
+                                        text-left">
+            
+                                    {{ obj.prod_code }}
+                                </div>
+            
+                                <div 
+                                    class="col-md-3 
+                                        text-left">
+            
+                                    {{ obj.item_name }}
+                                </div>
+            
+                                <div 
+                                    class="col-md-3 
+                                        text-left">
+            
+                                    {{ obj.operation }}
+                                </div>
+                            </div>
+                    </div>
+            
+                    <div
+                        class="col-md-2">
+            
+                    </div>
+            
+                </div>
         
-        {% else %}
+            {% endfor %}
+
+
         {% endif %}
     {% comment %} product updates close {% endcomment %}
     
@@ -131,45 +183,8 @@
 
     {% comment %} product feedbacks/ratings open {% endcomment %}
     {% comment %} product updates close {% endcomment %}
-    {% else %}
-    {% endif %}
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-{% for h in history  %}
-
-<div>
     
-        {{ h.username }} <br>
-        {{ h.prod_code }} <br>
-        {{ h.item_name }} <br>
-        {{ h.operation }} <br>
-    
-</div>
-<br>
-{% endfor %} 
+{% endif %}
 
-
-</div>
 {% endblock %}
 
