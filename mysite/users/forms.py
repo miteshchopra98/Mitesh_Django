@@ -2,7 +2,7 @@ from dataclasses import fields
 from django import forms
 from food.models import *
 from django.contrib.auth.forms import UserCreationForm
-from users.models import Profile
+from users.models import CustCart, Profile, CustRatingFeedback
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -15,4 +15,16 @@ class RegisterForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'location', 'user_type']    
+        fields = ['image', 'location', 'user_type']
+
+
+class CustCartUpd(forms.ModelForm):
+    class Meta:
+        model = CustCart
+        # fields = ['cart_id', 'prod_code', 'quantity', 'username']
+        fields = [ 'quantity']  
+
+class CustRatFeedForm(forms.ModelForm):
+    class Meta:
+        model = CustRatingFeedback
+        fields = ['ratings', 'feedback']

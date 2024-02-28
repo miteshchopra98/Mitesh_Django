@@ -7,6 +7,7 @@ from food.forms import *
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
+from users.models import CustCart, CustRatingFeedback
 
 
 # Create your views here.
@@ -63,9 +64,26 @@ class IndexClassView(ListView):
 def Detail(request, itemid):
     item = Item.objects.get(id=itemid)
     history = History.objects.filter(prod_code = item.prod_code)
+    crf = CustRatingFeedback.objects.filter(prod_code=item.prod_code)
+   
+
+    if request.user.profile.user_type == 'rest' or request.user.profile.user_type == 'admin':
+        occ = CustCart.objects.filter(
+            prod_code = item.prod_code
+        )
+
+    # customer
+    elif request.user.profile.user_type == 'cust':
+        occ = CustCart.objects.filter(
+            prod_code = item.prod_code,
+            username = request.user.username
+        )
+    
     context={
         'item': item,
-        'history':history
+        'history':history,
+        'occ':occ,
+        'crf':crf
         }
     return render(request, 'food/detail.html', context)
 #----------------------------------------------------------------------------------------------
@@ -105,11 +123,12 @@ def CreateItem(request):
 # CLass based CreateItem view
 class IndexCreateItemView(CreateView):
     model = Item
-    fields = ['rest_owner', 'prod_code', 'item_name', 'item_desc', 'item_price', 'item_image']
+    fields = ['rest_owner', 'prod_code' ,'item_name', 'item_desc', 'item_price', 'item_image']
     template_name = 'food/item-form.html'
     success_url = reverse_lazy('food:Index')
 
     def form_valid(self, form):
+        form.instance.added_by = self.request.user.username
 
         Obj_History = History(
             username = self.request.user.username,
@@ -190,6 +209,10 @@ def DeleteItem(request, itemid):
         return redirect('food:Index')
     return render(request, 'food/item-delete.html', context)
 #----------------------------------------------------------------------------------------------
+
+
+
+
 
 
 

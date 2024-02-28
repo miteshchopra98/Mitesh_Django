@@ -119,7 +119,7 @@
 {% if user.is_authenticated %}
 
     {% comment %} product updates open {% endcomment %}
-        {% if user.profile.user_type == 'Admin' or user.profile.user_type == 'rest' or user.profile.user_type %}
+        {% if user.profile.user_type == 'admin' or user.profile.user_type == 'rest' or user.profile.user_type %}
             {% for obj in history %}
 
                 <div
@@ -179,9 +179,197 @@
     
 
     {% comment %} product cart open {% endcomment %}
+
+    {% if user.profile.user_type == 'rest' or user.profile.user_type == 'cust' or user.profile.user_type == 'admin' %}
+        {% for obj in occ %}
+
+            <div
+                class="row mb-1">
+
+                <div
+                    class="col-md-8
+                        offset-md-2
+                        bg-success
+                        text-white">
+
+                        <div
+                            class="row">
+
+                            <div 
+                                class="col-md-2
+                                    text-left">
+
+                                {{ obj.cart_id }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.prod_code }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.quantity }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.username }}
+                            </div>
+
+
+                            <div
+                                class="col-md-2 
+                                    text-left">
+
+                                {% if user.profile.user_type == 'cust' %}
+
+                                    <a href=" {% url "users:cartupd" obj.cart_id item.id %} "
+                                    class = 'btn btn-warning btn-sm'>
+                                        Edit Quantity
+                                    </a>
+                                
+                    
+                                {% endif %}
+
+                            </div>
+
+                            <div
+                                class="col-md-2 
+                                    text-left">
+
+                                {% if user.profile.user_type == 'cust' %}
+
+                                    <a href="#"
+                                    class = 'btn btn-primary btn-sm'>
+                                        Buy
+                                    </a>
+                                
+                    
+                                {% endif %}
+
+                            </div>
+                        </div>
+                </div>
+
+                <div
+                    class="col-md-2">
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
     {% comment %} product cart close {% endcomment %}
 
     {% comment %} product feedbacks/ratings open {% endcomment %}
+
+
+    {% if user.profile.user_type == 'cust' %}
+        <a class="btn btn-dark offset-md-5 mb-2" href="{% url 'users:crf' item.id item.prod_code user.username %}">
+            Add Ratings and Feedback
+        </a>
+    {% endif %}
+
+
+    {% if user.profile.user_type == 'rest' or user.profile.user_type == 'cust' or user.profile.user_type == 'admin' %}
+        {% for obj in crf %}
+
+            <div
+                class="row mb-1">
+
+                <div
+                    class="col-md-8
+                        offset-md-2
+                        bg-info
+                        text-white">
+
+                        <div
+                            class="row">
+
+                            <div 
+                                class="col-md-1 
+                                    text-left">
+
+                                {{ obj.prod_code }}
+                            </div>
+
+                            <div 
+                                class="col-md-1 
+                                    text-left">
+
+                                {{ obj.ratings }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.feedback }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.username }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.user_type }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {% if obj.username == user.username %}
+                                    <a
+                                        class="btn btn-warning btn-sm"
+                                        href="{% url "users:crfupd" item.id obj.id %}">
+
+                                        Edit
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {% if obj.username == user.username %}
+                                    <a
+                                        class="btn btn-primary btn-sm"
+                                        href="{% url "users:crfdel" item.id obj.id %}">
+
+                                        Delete
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                </div>
+
+                <div
+                    class="col-md-2">
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
     {% comment %} product updates close {% endcomment %}
     
 {% endif %}

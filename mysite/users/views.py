@@ -230,8 +230,16 @@ def ProfFormCreate(request, userid):
         'form':form
         }
     return render(request, 'users/profform.html', context)
+#----------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+# Function based Cart View
+#----------------------------------------------------------------------------------------------
 def CustCartView(request, itemid, pdcd, user):
 
     context = {
@@ -241,14 +249,130 @@ def CustCartView(request, itemid, pdcd, user):
 
     if request.method == 'POST':
 
-        Obj_CusOrds = CustCart(
+        ObjCustCart = CustCart(
             prod_code=pdcd,
             username=user,
             quantity=request.POST.get('qty')
         )
 
-        Obj_CusOrds.save()
+        ObjCustCart.save()
 
         return redirect('food:detail', itemid=itemid)
 
     return render(request, 'users/cart.html', context)
+#----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+# Function based Cart Update View
+#----------------------------------------------------------------------------------------------
+def CartUpdateView(request, cartid, itemid):
+
+    cco = CustCart.objects.get(cart_id = cartid)
+
+    form = CustCartUpd(request.POST or None, instance=cco)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            
+            form.save()
+        
+            return redirect('food:detail', itemid=itemid)
+        
+    
+    context = {
+        'cartid':cartid,
+        'itemid':itemid,
+        'form':form,
+        }
+
+    return render(request, 'users/cartupd.html', context)
+#----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+# Function based Csutomer Feedback View
+#----------------------------------------------------------------------------------------------
+def CustRatFeedView(request, itemid, pc, username):
+
+    
+    form = CustRatFeedForm(request.POST or None)
+
+    if request.method == 'POST':
+        form.instance.prod_code = pc
+        form.instance.username=username
+        if form.is_valid():
+            form.save()
+            return redirect('food:detail', itemid=itemid)
+        
+    context = {
+        'itemid':itemid,
+        'pc':pc,
+        'username':username,
+        'form':form
+        }
+
+    return render(request, 'users/crf.html', context)
+
+
+
+def CustRatFeedUpdateView(request, itemid, csrfid):
+
+    crfo = CustRatingFeedback.objects.get(pk=csrfid)
+    form = CustRatFeedForm(request.POST or None, instance=crfo)
+
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('food:detail', itemid=itemid)
+    context={
+       'itemid':itemid,
+        'form':form,
+        'username':request.user.username,
+        'csrfid':csrfid,
+        }
+
+    return render(request,'users/crf.html',context)
+
+
+
+
+def CustRatFeedDeleteView(request, itemid, csrfid):
+
+    crfo = CustRatingFeedback.objects.get(pk=csrfid)
+   
+
+
+    if request.method == 'POST':
+        crfo.delete()
+        return redirect('food:detail', itemid=itemid)
+    
+    context={
+        'itemid':itemid,
+        'crfo':crfo
+        }
+
+    return render(request,'users/crf_del.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

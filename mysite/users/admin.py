@@ -7,6 +7,14 @@ admin.site.register(Profile)
 
 
 class CustCartAdmin(admin.ModelAdmin):
-    list_display = ('cart_id', 'prod_code', 'quantity', 'username')
+    list_display = ('username','prod_code', 'cart_id', 'quantity', )
 
 admin.site.register(CustCart, CustCartAdmin)
+
+
+
+
+class CustRatingFeedbackAdmin(admin.ModelAdmin):
+    list_display = ('username','prod_code', 'ratings' )
+
+admin.site.register(CustRatingFeedback, CustRatingFeedbackAdmin)

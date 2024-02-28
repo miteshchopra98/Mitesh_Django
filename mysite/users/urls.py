@@ -14,4 +14,19 @@ urlpatterns = [
     #cart item create
     path('cart/<int:itemid>/<int:pdcd>/<str:user>/', userviews.CustCartView, name='cart'),
 
+    #cart update
+    path('cartupd/<int:cartid>/<int:itemid>/', userviews.CartUpdateView, name ='cartupd'),
+
+    
+    #customer rating-feedback 
+    path('crf/<int:itemid>/<int:pc>/<str:username>/', userviews.CustRatFeedView, name='crf'),
+
+
+    #customer rating-feedback update
+    path('crfupd/<int:itemid>/<int:csrfid>/',userviews.CustRatFeedUpdateView, name='crfupd'),
+
+    #customer rating-feedback delete
+    path('crfdel/<int:itemid>/<int:csrfid>/',userviews.CustRatFeedDeleteView, name='crfdel'),
+     
+
 ]

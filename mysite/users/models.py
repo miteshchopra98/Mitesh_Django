@@ -7,7 +7,17 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE)
     image = models.ImageField(default='profilepic.jpg', upload_to='profile_pictures')
     location = models.CharField(max_length=100)
-    user_type = models.CharField(max_length=50, default='usertype')
+
+    MY_CHOICES = {
+        ('rest', 'rest'),
+        ('cust', 'cust'),
+        ('admin', 'admin'),
+        
+    }
+
+
+    
+    user_type = models.CharField(max_length=50, choices = MY_CHOICES)
     
 
     def __str__(self):
@@ -28,5 +38,23 @@ class CustCart(models.Model):
                 str(self.prod_code),
                 str(self.quantity),
                 str(self.username)
+            )
+        )
+
+
+class CustRatingFeedback(models.Model):
+    prod_code = models.IntegerField(default=1)
+    ratings = models.FloatField()
+    feedback = models.CharField(max_length=200)
+    username  = models.CharField(max_length=200, default='username')
+   
+    def __str__(self):
+        return str(
+            (
+                str(self.prod_code),
+                str(self.ratings),
+                str(self.feedback),
+                str(self.username),
+                
             )
         )
