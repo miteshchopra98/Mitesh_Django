@@ -377,18 +377,18 @@ def CustRatFeedDeleteView(request, itemid, csrfid):
 
 
 
-# Payment view
+# Function based Payment View
 #----------------------------------------------------------------------------------------------
 def Payment(request, amt, qnt, cartid, itemid):
-    context = {
+    print(request, amt, qnt, cartid, itemid)
+    context={
         'amt':amt,
         'qnt':qnt,
         'tot':amt*qnt,
         'cartid':cartid,
-        'itemid':itemid,
-        }
-
-    return render(request,'users/payment.html',context)
+        'itemid':itemid
+    }
+    return render(request, 'users/payment.html', context)
 #----------------------------------------------------------------------------------------------
 
 
@@ -397,7 +397,7 @@ def Payment(request, amt, qnt, cartid, itemid):
 
 
 
-# On Approve Payment view
+# Function based Payment Approve View
 #----------------------------------------------------------------------------------------------
 def OnApprove(request):
 
@@ -418,14 +418,39 @@ def OnApprove(request):
 
 
 
-# Payment success view
+# Function based Payment Success View
 #----------------------------------------------------------------------------------------------
 def PaymentSuccess(request, cartid, itemid):
     print(cartid, itemid)
 
-    return render(request, 'users/pymtsuccess.html')
+    coo=CustCart.objects.get(cart_id=cartid)
+
+    opo = PlacedOrders(
+        order_id=coo.cart_id, 
+        prod_code=coo.prod_code,
+        quantity=coo.quantity,
+        user=coo.username
+        )
+
+    opo.save()
+    coo.delete()
+
+    context={
+        'cartid':cartid,
+        'itemid':itemid
+    }
+
+    return render(request, 'users/pymtsuccess.html', context)
+#----------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+# Function based Placed Orders View
+#----------------------------------------------------------------------------------------------
 def PlacedOrdersView(request):
     
     username = request.user.username
@@ -436,6 +461,17 @@ def PlacedOrdersView(request):
     }
     
     return render(request, 'users/placedorders.html', context)
+#----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+# Function based  View
+#----------------------------------------------------------------------------------------------
+
 
 
 

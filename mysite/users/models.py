@@ -56,8 +56,7 @@ class CustRatingFeedback(models.Model):
                 
             )
         )
-
-
+    
 class PlacedOrders(models.Model):
     order_id = models.IntegerField()
     prod_code = models.IntegerField()

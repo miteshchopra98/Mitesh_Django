@@ -2,14 +2,13 @@
 
 {% block body %}
 
-
 <div class="mt-5">
 
 </div>
 
 <!-- secondary -->
 {% if user.is_authenticated %}
-    {% if user.profile.user_type == 'Restuarant' or user.profile.user_type == 'Customer' or user.profile.user_type == 'Admin' %}
+    {% if user.profile.user_type == 'rest' or user.profile.user_type == 'cust' or user.profile.user_type == 'admin' %}
         {% for obj in opo %}
             <div class="row mb-1">
                 <div class="col-md-8 offset-md-2 bg-secondary text-white">
@@ -30,3 +29,4 @@
 {% endif %}
 
 {% endblock %}
+

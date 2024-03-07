@@ -37,7 +37,7 @@
 </div>
 
 
-    {% comment %} Admin open {% endcomment %}
+{% comment %} Admin open {% endcomment %}
     {% if user.is_authenticated and user.profile.user_type == 'admin' %}
         <div class="col-md-3 offset-md-1">
             <a
@@ -66,9 +66,9 @@
         </div>
     
     {% endif %}
-    {% comment %} Admin close {% endcomment %}
+{% comment %} Admin close {% endcomment %}
 
-    {% comment %} rest open {% endcomment %}
+{% comment %} rest open {% endcomment %}
     {% if user.is_authenticated and user.profile.user_type == 'rest' %}
         <div class="col-md-3 offset-md-1">
             <a
@@ -89,9 +89,9 @@
         </div>
     
     {% endif %}
-    {% comment %} rest close {% endcomment %}
+{% comment %} rest close {% endcomment %}
 
-         {% comment %} rest open {% endcomment %}
+{% comment %} rest open {% endcomment %}
     {% if user.is_authenticated and user.profile.user_type == 'cust' %}
     <div class="col-md-3 offset-md-1">
         <a
@@ -111,14 +111,16 @@
         </a>
     </div>
 
-{% endif %}
+    {% endif %}
 {% comment %} rest close {% endcomment %}
 
 
-</div>
-{% if user.is_authenticated %}
 
-    {% comment %} product updates open {% endcomment %}
+</div>
+{% comment %} product updates open {% endcomment %}
+    {% if user.is_authenticated %}
+
+
         {% if user.profile.user_type == 'admin' or user.profile.user_type == 'rest' or user.profile.user_type %}
             {% for obj in history %}
 
@@ -175,10 +177,10 @@
 
 
         {% endif %}
-    {% comment %} product updates close {% endcomment %}
+{% comment %} product updates close {% endcomment %}
     
 
-    {% comment %} product cart open {% endcomment %}
+{% comment %} product cart open {% endcomment %}
 
     {% if user.profile.user_type == 'rest' or user.profile.user_type == 'cust' or user.profile.user_type == 'admin' %}
         {% for obj in occ %}
@@ -230,7 +232,7 @@
 
                                 {% if user.profile.user_type == 'cust' %}
 
-                                    <a href=" {% url "users:cartupd" obj.cart_id item.id %} "
+                                    <a href=" {% url 'users:cartupd' obj.cart_id item.id %} "
                                     class = 'btn btn-warning btn-sm'>
                                         Edit Quantity
                                     </a>
@@ -246,9 +248,9 @@
 
                                 {% if user.profile.user_type == 'cust' %}
 
-                                    <a href="{% url "users:buy" item.item_price obj.quantity obj.cart_id item.id %}"
+                                    <a href="{% url 'users:buy' item.item_price obj.quantity obj.cart_id item.id %}"
                                     class = 'btn btn-primary btn-sm'>
-                                        Buy
+                                        Buy Now
                                     </a>
                                 
                     
@@ -370,7 +372,30 @@
         {% endfor %}
     {% endif %}
 
-{% comment %} product updates close {% endcomment %}
+{% comment %} product feedback/ratings close {% endcomment %}
+
+{% comment %} placed orders open {% endcomment %}
+             <!-- secondary -->
+    {% if user.profile.user_type == 'rest' or user.profile.user_type == 'cust' or user.profile.user_type == 'admin' %}
+        {% for obj in objpo %}
+            <div class="row mb-1">
+                <div class="col-md-8 offset-md-2 bg-secondary text-white">
+                    <div class="row">
+                        <div class="col-md-3 text-left">{{ obj.order_id }}</div>
+                        <div class="col-md-3 text-left">{{ obj.prod_code }}</div>
+                        <div class="col-md-3 text-left">{{ obj.quantity }}</div>
+                        <div class="col-md-3 text-left">{{ obj.user }}</div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+        
+                </div>
+            </div>
+        {% endfor %}      
+    {% endif %}
+
+{% comment %} placed orders closed {% endcomment %}
     
 {% endif %}
 

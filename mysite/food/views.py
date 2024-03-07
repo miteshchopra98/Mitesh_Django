@@ -7,7 +7,7 @@ from food.forms import *
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
-from users.models import CustCart, CustRatingFeedback
+from users.models import CustCart, CustRatingFeedback, PlacedOrders
 
 
 # Create your views here.
@@ -23,18 +23,40 @@ from users.models import CustCart, CustRatingFeedback
 #----------------------------------------------------------------------------------------------
 def Index(request):
 
+   
 
     if request.user.is_superuser:
         itemlist = Item.objects.all()
+
+        # for search functionality
+        item_name = request.GET.get('item_name')
+        if item_name != '' and item_name is not None:
+            itemlist = Item.objects.filter(item_name__icontains=item_name)
         
     elif request.user.is_authenticated and request.user.profile.user_type== 'rest':
         itemlist = Item.objects.filter(rest_owner=request.user.id)
+
+        # for search functionality
+        item_name = request.GET.get('item_name')
+        if item_name != '' and item_name is not None:
+            itemlist = Item.objects.filter(item_name__icontains=item_name)
         
     elif request.user.is_authenticated and request.user.profile.user_type== 'cust':
         itemlist = Item.objects.all()
+
+        # for search functionality
+        item_name = request.GET.get('item_name')
+        if item_name != '' and item_name is not None:
+            itemlist = Item.objects.filter(item_name__icontains=item_name)
         
     else:
         itemlist = Item.objects.all()
+
+        # for search functionality
+        item_name = request.GET.get('item_name')
+        if item_name != '' and item_name is not None:
+            itemlist = Item.objects.filter(item_name__icontains=item_name)
+
         
 
     context = {
@@ -79,11 +101,25 @@ def Detail(request, itemid):
             username = request.user.username
         )
     
+    # restuarant and admin | placed orders
+    if request.user.profile.user_type == 'rest' or request.user.profile.user_type == 'admin':
+        objpo = PlacedOrders.objects.filter(
+            prod_code = item.prod_code
+        )
+   # customer | placed orders
+    elif request.user.profile.user_type == 'cust':
+        objpo = PlacedOrders.objects.filter(
+            prod_code = item.prod_code,
+            user = request.user.username
+      )
+
+
     context={
         'item': item,
         'history':history,
         'occ':occ,
-        'crf':crf
+        'crf':crf,
+        'objpo':objpo
         }
     return render(request, 'food/detail.html', context)
 #----------------------------------------------------------------------------------------------
@@ -139,16 +175,16 @@ class IndexCreateItemView(CreateView):
 
         Obj_History.save()
         return super().form_valid(form)
-
-
-
-
-
-
-
-
-
 #----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 # Function based UpdateItem view
 #----------------------------------------------------------------------------------------------
 def UpdateItem(request, itemid):

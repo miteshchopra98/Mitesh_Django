@@ -2,10 +2,7 @@
 
 {% block body %}
 
-
-
-<h1>Payment success</h1>
-
-
+<h1>This is the Payment success page for Order ID: {{ cartid }}</h1>
+<a class= "btn btn-success" href="{% url 'food:detail' itemid %}">Back to Cart</a>
 
 {% endblock %}

@@ -17,6 +17,14 @@
             Zombo
         </a>
 
+         <!-- for search functionality -->
+         <form action="{% url 'food:Index' %}" method="GET">
+            {% csrf_token %}
+            <span><b style="color:white">Search: </b></span>
+            <input type="search" name="item_name">
+            <button type="submit">Search</button>
+        </form>
+
         <div class = 'navbar'>
 
             {% if user.is_authenticated %}
@@ -26,6 +34,12 @@
                         Add Item
                     </a>
 
+                {% endif %}
+
+                {% if user.profile.user_type == 'cust' %}
+                    <a href="{% url 'users:pldords' %}" class="nav-item nav-link btn btn-dark">
+                        Placed Orders
+                    </a>
                 {% endif %}
 
                 
