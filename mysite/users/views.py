@@ -4,7 +4,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import *
 from django.contrib.auth.decorators import login_required
-from users.models import Profile, CustCart
+from users.models import Profile, CustCart, PlacedOrders
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 #----------------------------------------------------------------------------------------------
@@ -75,7 +77,6 @@ def Register(request):
         }
 
     return render(request, 'users/register.html', context)
-
 #----------------------------------------------------------------------------------------------
 
 
@@ -86,7 +87,6 @@ def Register(request):
 
 # Function based Login_view View
 #----------------------------------------------------------------------------------------------
-
 def Login_view(request):
 
     if request.method == 'POST':
@@ -126,7 +126,6 @@ def Login_view(request):
 
         }
     return render(request, 'users/login.html', context)
-
 #----------------------------------------------------------------------------------------------
 
 
@@ -137,7 +136,6 @@ def Login_view(request):
 
 # Function based logout_view View
 #----------------------------------------------------------------------------------------------
-
 def logout_view(request):
     
 
@@ -150,7 +148,6 @@ def logout_view(request):
         return redirect('food:Index')
 
     return render(request, 'users/logout.html')
-
 #----------------------------------------------------------------------------------------------
 
 
@@ -161,7 +158,6 @@ def logout_view(request):
 
 # Function based ProfileView View
 #----------------------------------------------------------------------------------------------
-
 def ProfileView(request):
 
     if not request.user.is_authenticated:
@@ -172,7 +168,6 @@ def ProfileView(request):
 
 
     return render(request,'users/profile.html', context)
-
 #----------------------------------------------------------------------------------------------
 
 
@@ -183,7 +178,6 @@ def ProfileView(request):
 
 # Function based ProfileFormEdit View
 #----------------------------------------------------------------------------------------------
-
 def ProfileFormEdit(request, userid):
 
 
@@ -321,9 +315,16 @@ def CustRatFeedView(request, itemid, pc, username):
         }
 
     return render(request, 'users/crf.html', context)
+#----------------------------------------------------------------------------------------------
 
 
 
+
+
+
+
+# Function based Csutomer Feedback Update View
+#----------------------------------------------------------------------------------------------
 def CustRatFeedUpdateView(request, itemid, csrfid):
 
     crfo = CustRatingFeedback.objects.get(pk=csrfid)
@@ -342,10 +343,16 @@ def CustRatFeedUpdateView(request, itemid, csrfid):
         }
 
     return render(request,'users/crf.html',context)
+#----------------------------------------------------------------------------------------------
 
 
 
 
+
+
+
+# Function based Csutomer Feedback Delete View
+#----------------------------------------------------------------------------------------------
 def CustRatFeedDeleteView(request, itemid, csrfid):
 
     crfo = CustRatingFeedback.objects.get(pk=csrfid)
@@ -362,9 +369,73 @@ def CustRatFeedDeleteView(request, itemid, csrfid):
         }
 
     return render(request,'users/crf_del.html',context)
+#----------------------------------------------------------------------------------------------
 
 
 
+
+
+
+
+# Payment view
+#----------------------------------------------------------------------------------------------
+def Payment(request, amt, qnt, cartid, itemid):
+    context = {
+        'amt':amt,
+        'qnt':qnt,
+        'tot':amt*qnt,
+        'cartid':cartid,
+        'itemid':itemid,
+        }
+
+    return render(request,'users/payment.html',context)
+#----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+# On Approve Payment view
+#----------------------------------------------------------------------------------------------
+def OnApprove(request):
+
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        print(body)
+
+        context = {
+
+        }
+
+        return JsonResponse(context)
+#----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+# Payment success view
+#----------------------------------------------------------------------------------------------
+def PaymentSuccess(request, cartid, itemid):
+    print(cartid, itemid)
+
+    return render(request, 'users/pymtsuccess.html')
+
+
+def PlacedOrdersView(request):
+    
+    username = request.user.username
+    opo = PlacedOrders.objects.filter(user=username)
+    
+    context = {
+        'opo':opo
+    }
+    
+    return render(request, 'users/placedorders.html', context)
 
 
 

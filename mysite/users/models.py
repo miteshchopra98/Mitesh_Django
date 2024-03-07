@@ -14,8 +14,6 @@ class Profile(models.Model):
         ('admin', 'admin'),
         
     }
-
-
     
     user_type = models.CharField(max_length=50, choices = MY_CHOICES)
     
@@ -58,3 +56,23 @@ class CustRatingFeedback(models.Model):
                 
             )
         )
+
+
+class PlacedOrders(models.Model):
+    order_id = models.IntegerField()
+    prod_code = models.IntegerField()
+    quantity = models.IntegerField()
+    user = models.CharField(max_length=200)
+
+    def __str__(self):
+        return str(
+            (
+                self.id,
+                self.order_id,
+                self.prod_code,
+                self.quantity,
+                self.user
+            )
+        )
+
+

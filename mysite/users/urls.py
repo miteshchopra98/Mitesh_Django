@@ -28,5 +28,16 @@ urlpatterns = [
     #customer rating-feedback delete
     path('crfdel/<int:itemid>/<int:csrfid>/',userviews.CustRatFeedDeleteView, name='crfdel'),
      
+    # paypal checkout button
+    path('buy/<int:amt>/<int:qnt>/<int:cartid>/<int:itemid>/', userviews.Payment, name='buy'),
 
+    # paypal on approve
+    path('oa/', userviews.OnApprove, name='oa'),
+
+    # paypal payment success
+    path('ps/<int:cartid>/<int:itemid>/', userviews.PaymentSuccess, name='ps'),
+
+    
+    # placed orders
+    path('pldords/', userviews.PlacedOrdersView, name='pldords'),
 ]

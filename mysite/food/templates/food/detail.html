@@ -246,7 +246,7 @@
 
                                 {% if user.profile.user_type == 'cust' %}
 
-                                    <a href="#"
+                                    <a href="{% url "users:buy" item.item_price obj.quantity obj.cart_id item.id %}"
                                     class = 'btn btn-primary btn-sm'>
                                         Buy
                                     </a>
@@ -268,9 +268,9 @@
         {% endfor %}
     {% endif %}
 
-    {% comment %} product cart close {% endcomment %}
+{% comment %} product cart close {% endcomment %}
 
-    {% comment %} product feedbacks/ratings open {% endcomment %}
+{% comment %} product feedbacks/ratings open {% endcomment %}
 
 
     {% if user.profile.user_type == 'cust' %}
@@ -370,7 +370,7 @@
         {% endfor %}
     {% endif %}
 
-    {% comment %} product updates close {% endcomment %}
+{% comment %} product updates close {% endcomment %}
     
 {% endif %}
 

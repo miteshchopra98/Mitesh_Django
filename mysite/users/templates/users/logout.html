@@ -2,24 +2,30 @@
 
 {% block body  %}
 
-<h1>This is Logout page</h1>
+<div class="container mt-5">
+    <div class="card text-center">
+        <div class="card-body">
 
-<form method = 'POST'>
+            <h1 class="card-title">Logout</h1>
 
-    {% csrf_token %}
+            <form method='POST' class="mt-4">
 
-    <h1>Are you sure you want to logout?</h1>
-    <button type = 'submit', method='POST' class="btn btn-danger"
-    style="width:80px"
-    >
-        Yes
-    </button>
+                {% csrf_token %}
 
-    <a style="width:80px" class = 'btn btn-dark' href="{% url 'food:Index' %}">
-        No
-    </a>
+                <h2>Are you sure you want to logout?</h2>
 
+                <button type='submit' class="btn btn-danger btn-lg mr-2">
+                    Yes
+                </button>
 
-</form>
+                <a class='btn btn-dark btn-lg' href="{% url 'food:Index' %}">
+                    No
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}
